@@ -15,6 +15,9 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
 
+test {
+    useJUnit() // useJUnitPlatform() который был по умолчанию относится к JUnit5
+}
 
 kotlin {
     jvmToolchain(19)

@@ -4,12 +4,6 @@ import org.junit.Test
 
 class MainKtTest {
 
-
-
-  //  @Test
-   // fun main() {
-  //  }
-
     @Test
     fun checkLimitVisa() {
         val typeOperation = "Visa"
@@ -24,15 +18,39 @@ class MainKtTest {
         var possibleTrascation = when {
             previousOperationMonthCard + amountTransaction > monthLimitCard || amountTransaction + previousOperationsDayCard > dayLimitCard ||
                     amountTransaction + previousOperationMonthVk > monthLimitVK || amountTransaction > operationLimitVK -> false
-
             else -> true
         }
-        assertEquals(true,possibleTrascation)
-    }
+        assertEquals(true, possibleTrascation)
     }
 
-   // @Test
-   // fun checkType() {
-  //  }
-//}
+    @Test
+    fun checkTypeVisa() {
+        val typeOperation = "Visa"
+        val minComissionVisa = 35
+        val percentComissionVisa = 0.0075
+        val percentComissionMC = 0.006
+        val addComissionMC = 20
+        val maxLimitFreeComissionMCMonth = 75_000
+        val minLimitFreeComissionMCMonth = 300
+        val previousOperationsDayCard = 0
+        val amountTransaction = 10_000
+        val possibleTransaction = true
+        var result = 0
+        when (possibleTransaction) {
+            false -> println("Операция не может быть выполнена, так как превышен лимит. За подробностями обратитесь, пожалуйста, в ваш банк")
+            else -> when (typeOperation) {
+                "Visa", "Мир" -> when {
+                    (amountTransaction * percentComissionVisa).toInt() > minComissionVisa -> result = (amountTransaction * percentComissionVisa).toInt()
+                    else -> result = minComissionVisa
+                }
+                "Master Card", "Maestro" -> when {
+                    amountTransaction > minLimitFreeComissionMCMonth && amountTransaction + previousOperationsDayCard <= maxLimitFreeComissionMCMonth -> result = 0
+                    else -> result = (((amountTransaction - maxLimitFreeComissionMCMonth) * percentComissionMC).toInt() + addComissionMC)
+                }
+                else -> result = 0
+            }
+        }
+        assertEquals(75,result)
+    }
+}
 

@@ -16,15 +16,15 @@ fun  checkLimit () : Boolean {
     val previousOperationsDayCard = 0
     val previousOperationMonthVk: Int = 0
     val amountTransaction = 10_000
-    var possibleTrascation = when {
+    var possibleTranscation = when {
         previousOperationMonthCard + amountTransaction > monthLimitCard || amountTransaction + previousOperationsDayCard > dayLimitCard ||
         amountTransaction + previousOperationMonthVk > monthLimitVK || amountTransaction > operationLimitVK-> false
         else -> true
     }
-    return possibleTrascation
+    return possibleTranscation
 }
 
-fun checkType (possibleTrascation : Boolean)  {
+fun checkType (possibleTranscation : Boolean)  {
     val typeOperation = "Visa"
     val minComissionVisa = 35
     val percentComissionVisa = 0.0075
@@ -34,7 +34,7 @@ fun checkType (possibleTrascation : Boolean)  {
     val minLimitFreeComissionMCMonth = 300
     val previousOperationsDayCard = 0
     val amountTransaction = 10_000
-    when (possibleTrascation) {
+    when (possibleTranscation) {
         false -> println("Операция не может быть выполнена, так как превышен лимит. За подробностями обратитесь, пожалуйста, в ваш банк")
         else -> when (typeOperation) {
             "Visa","Мир" -> when {
