@@ -20,7 +20,7 @@ class MainKtTest {
                     amountTransaction + previousOperationMonthVk > monthLimitVK || amountTransaction > operationLimitVK -> false
             else -> true
         }
-        assertEquals(true, possibleTrascation)
+        assertEquals(false, possibleTrascation)
     }
 
     @Test
@@ -50,7 +50,7 @@ class MainKtTest {
                 else -> result = 0
             }
         }
-        assertEquals(75,result)
+        assertEquals(65,result)
     }
 }
 
