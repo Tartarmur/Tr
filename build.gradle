@@ -16,7 +16,9 @@ dependencies {
 }
 
 test {
-    useJUnit() // useJUnitPlatform() который был по умолчанию относится к JUnit5
+    useJUnit()
+
+    //finalizedBy jacocoTestReport
 }
 
 kotlin {

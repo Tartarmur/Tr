@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MainKt</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ru.netology</a>
+</div>
+
+<h1>Coverage Summary for Class: MainKt (ru.netology)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MainKt</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (22/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    51,3%
+  </span>
+  <span class="absValue">
+    (20/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package ru.netology
+&nbsp;
+&nbsp;fun main() {
+&nbsp;
+<b class="nc">&nbsp; var comissionLimit = checkLimit()</b>
+<b class="nc">&nbsp; var comissionType = checkType(comissionLimit)</b>
+&nbsp;}
+&nbsp;
+&nbsp;fun  checkLimit (
+<b class="nc">&nbsp;    monthLimitCard: Int = 600_000,</b>
+<b class="nc">&nbsp;    dayLimitCard: Int = 150_000,</b>
+<b class="nc">&nbsp;    operationLimitVK: Int = 15_000,</b>
+<b class="nc">&nbsp;    previousOperationMonthCard: Int = 0,</b>
+<b class="nc">&nbsp;    previousOperationsDayCard: Int = 0,</b>
+<b class="nc">&nbsp;    monthLimitVK: Int = 40_000,</b>
+<b class="nc">&nbsp;    previousOperationMonthVk: Int = 0,</b>
+<b class="nc">&nbsp;    amountTransaction: Int = 10_000) : Boolean {</b>
+<b class="fc">&nbsp;    var possibleTranscation = when {</b>
+<b class="fc">&nbsp;        previousOperationMonthCard + amountTransaction &gt; monthLimitCard -&gt; false</b>
+<b class="fc">&nbsp;        amountTransaction + previousOperationsDayCard &gt; dayLimitCard -&gt; false</b>
+<b class="fc">&nbsp;        amountTransaction + previousOperationMonthVk &gt; monthLimitVK -&gt; false</b>
+<b class="fc">&nbsp;        amountTransaction &gt; operationLimitVK-&gt; false</b>
+<b class="fc">&nbsp;        else -&gt; true</b>
+&nbsp;    }
+<b class="fc">&nbsp;    return possibleTranscation</b>
+&nbsp;}
+&nbsp;
+&nbsp;fun checkType (
+&nbsp;    possibleTranscation : Boolean,
+<b class="nc">&nbsp;    typeOperation: String = &quot;Visa&quot;,</b>
+<b class="nc">&nbsp;    minComissionVisa: Int = 35,</b>
+<b class="nc">&nbsp;    percentComissionVisa: Double = 0.0075,</b>
+<b class="nc">&nbsp;    percentComissionMC: Double = 0.006,</b>
+<b class="nc">&nbsp;    addComissionMC: Int = 20,</b>
+<b class="nc">&nbsp;    maxLimitFreeComissionMCMonth: Int = 75_000,</b>
+<b class="nc">&nbsp;    minLimitFreeComissionMCMonth: Int = 300,</b>
+<b class="nc">&nbsp;    previousOperationsDayCard: Int = 0,</b>
+<b class="nc">&nbsp;    amountTransaction: Int = 10_000 ) : Int  {</b>
+<b class="fc">&nbsp;    var result = 0</b>
+<b class="fc">&nbsp;    when (possibleTranscation) {</b>
+<b class="fc">&nbsp;        false -&gt; println(&quot;Операция не может быть выполнена, так как превышен лимит. За подробностями обратитесь, пожалуйста, в ваш банк&quot;)</b>
+<b class="fc">&nbsp;        else -&gt; when (typeOperation) {</b>
+<b class="fc">&nbsp;            &quot;Visa&quot;, &quot;Мир&quot; -&gt; when {</b>
+<b class="fc">&nbsp;                (amountTransaction * percentComissionVisa).toInt() &gt; minComissionVisa -&gt; result = (amountTransaction * percentComissionVisa).toInt()</b>
+&nbsp;                //println(&quot;Cумма комиссии за эту операцию по данной карте составит: &quot; + (amountTransaction * percentComissionVisa).toInt() + &quot; руб.&quot;)
+<b class="fc">&nbsp;                else -&gt; result = minComissionVisa</b>
+&nbsp;            //println(&quot;Cумма комиссии за эту операцию по данной карте составит: &quot; + minComissionVisa + &quot; руб.&quot;)
+&nbsp;            }
+<b class="fc">&nbsp;            &quot;Master Card&quot;, &quot;Maestro&quot; -&gt; when {</b>
+<b class="fc">&nbsp;                amountTransaction &gt; minLimitFreeComissionMCMonth &amp;&amp; amountTransaction + previousOperationsDayCard &lt;= maxLimitFreeComissionMCMonth -&gt; result = 0</b>
+&nbsp;                //println(&quot;Cумма комиссии за эту операцию по данной карте составит: 0 руб.&quot;)
+<b class="fc">&nbsp;                amountTransaction &lt; minLimitFreeComissionMCMonth -&gt; result = (amountTransaction * percentComissionMC).toInt() + addComissionMC</b>
+<b class="fc">&nbsp;                else -&gt; result = ((amountTransaction - maxLimitFreeComissionMCMonth) * percentComissionMC).toInt() + addComissionMC</b>
+&nbsp;                //println((&quot;Cумма комиссии за эту операцию по данной карте составит: ((amountTransaction -  maxLimitFreeComissionMCMonth) * percentComissionMC).toInt() + addComissionMC) + &quot; руб&quot;))
+&nbsp;            }
+<b class="fc">&nbsp;            else -&gt; result = 0 //println(&quot;Cумма комиссии за эту операцию по данной карте составит: 0 руб.&quot;)</b>
+&nbsp;        }
+&nbsp;    }
+<b class="fc">&nbsp;    return result</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-06-11 13:21</div>
+</div>
+</body>
+</html>
